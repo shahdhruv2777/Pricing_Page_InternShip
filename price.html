@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing Page</title>
+  <link rel="stylesheet" href="price.css">
+  <script>
+    let currentPlan = 'basic';
+    let isMonthly = true;
+    
+    // Function to update pricing based on currency selection
+    function updateCurrency() {
+      const currency = document.querySelector('input[name="currency"]:checked').value;
+      
+      // Define conversion rates
+      const usdToInr = 74.5; // Replace with the current exchange rate
+      
+      // Update prices based on currency selection
+      const basicPrice = isMonthly ? (currency === 'usd' ? '$10/month' : `₹${Math.round(10 * usdToInr)}/month`) : (currency === 'usd' ? '$100/year' : `₹${Math.round(100 * usdToInr)}/year`);
+      const premiumPrice = isMonthly ? (currency === 'usd' ? '$20/month' : `₹${Math.round(20 * usdToInr)}/month`) : (currency === 'usd' ? '$200/year' : `₹${Math.round(200 * usdToInr)}/year`);
+  
+      // Update prices in the DOM
+      document.getElementById('basic-plan').querySelector('.price.monthly').textContent = basicPrice;
+      document.getElementById('basic-plan').querySelector('.price.annual').textContent = basicPrice;
+      document.getElementById('premium-plan').querySelector('.price.monthly').textContent = premiumPrice;
+      document.getElementById('premium-plan').querySelector('.price.annual').textContent = premiumPrice;
+    }
+  
+    function updatePricing() {
+      updateCurrency();
+      document.getElementById('basic-plan').querySelector('.price.monthly').style.display = isMonthly ? 'block' : 'none';
+      document.getElementById('basic-plan').querySelector('.price.annual').style.display = isMonthly ? 'none' : 'block';
+      document.getElementById('premium-plan').querySelector('.price.monthly').style.display = isMonthly ? 'block' : 'none';
+      document.getElementById('premium-plan').querySelector('.price.annual').style.display = isMonthly ? 'none' : 'block';
+    }
+  
+    function selectPlan(plan) {
+      currentPlan = plan;
+      updatePricing();
+    }
+  
+    function togglePricing() {
+      isMonthly = !isMonthly;
+      updatePricing();
+    }
+  </script>
+  
+</head>
+<body>
+  <header>
+    <h1>Our Pricing</h1>
+    <div class="price-toggle">
+        <h2>monthly</h2>
+        <div class="toggle-switch">
+            <input type="checkbox" id="toggle" onclick="togglePricing()">
+            <label for="toggle"></label>
+        </div>
+        <h2>annual</h2>
+    </div>
+    <div class="myradio">
+      <form>
+        <input type="radio" id="usd" name="currency" value="usd" checked onchange="updateCurrency()">
+        <label for="usd" class="radio-container"><b>USD($)</b></label><br>
+        <input type="radio" id="inr" name="currency" value="inr" onchange="updateCurrency()">
+        <label for="inr" class="radio-container"><b>INR(₹)</b></label><br>
+      </form>
+    </div>
+  </header>
+  <main>
+    <br>
+    <br>
+
+    <section class="pricing-plans">
+      <div class="plan" id="basic-plan">
+        <h2>Basic Plan</h2>
+        <div class="price monthly">$10/month</div>
+        <div class="price annual" style="display: none;">$100/year</div>
+        <ul>
+          <li>Feature 1</li>
+          <li>Feature 2</li>
+          <li>Feature 3</li>
+        </ul>
+        <button onclick="selectPlan('basic')">Select</button>
+      </div>
+      <div class="plan" id="premium-plan">
+        <h2>Premium Plan</h2>
+        <div class="price monthly">$20/month</div>
+        <div class="price annual" style="display: none;">$200/year</div>
+        <ul>
+          <li>Feature 1</li>
+          <li>Feature 2</li>
+          <li>Feature 3</li>
+          <li>Feature 4</li>
+        </ul>
+        <button onclick="selectPlan('premium')">Select</button>
+      </div>
+    </section>
+    
+    
+    
+    
+
+  </main>
+  <footer>
+    <p>&copy; 2024 Pricing Page</p>
+  </footer>
+
+  
+</body>
+</html>
